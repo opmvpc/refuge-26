@@ -54,9 +54,9 @@ Le menu du layout pointe vers `/animaux` et `/animaux/nouveau` en adresses
    ```bash
    composer run dev
    ```
-   Le site répond sur http://localhost:8000 (ou sur `http://refuge-26.test` avec
-   Herd ou Laragon, `composer run dev` reste nécessaire pour le CSS). Ouvrez
-   http://localhost:8000/composants : la page des composants s'affiche. Toutes
+   Avec Herd ou Laragon, le site répond sur `http://refuge-26.test` (laissez
+   `composer run dev` tourner : il compile le CSS). Ouvrez
+   `http://refuge-26.test/composants` : la page des composants s'affiche. Toutes
    les autres pages répondent 404 : c'est normal, les routes sont à écrire.
 5. **Lancez le premier groupe** :
    ```bash
