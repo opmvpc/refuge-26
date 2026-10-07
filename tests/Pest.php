@@ -25,3 +25,19 @@ function validAnimal(Shelter $shelter, array $overrides = []): array
         'description' => 'Un berger croisé qui rapporte tout ce qu\'on lance.',
     ], $overrides);
 }
+
+/**
+ * Les cases à cocher name="tags[]" de la page : [id du trait => cochée ou non].
+ * Le HTML est lu comme le lit un navigateur : l'ordre des attributs et les classes sont libres.
+ */
+function tagCheckboxes(string $html): array
+{
+    $document = Dom\HTMLDocument::createFromString($html, LIBXML_NOERROR);
+    $checkboxes = [];
+
+    foreach ($document->querySelectorAll('input[type="checkbox"][name="tags[]"]') as $input) {
+        $checkboxes[(int) $input->getAttribute('value')] = $input->hasAttribute('checked');
+    }
+
+    return $checkboxes;
+}

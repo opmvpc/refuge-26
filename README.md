@@ -23,9 +23,10 @@ Il faut **PHP 8.4 ou plus**, Composer, Node et npm.
 | les pictogrammes `public/images/species/chien.svg`, `chat.svg`, `lapin.svg` | l'affichage du message flash dans le layout (kata 17.2) |
 | les tests, la CI | `lang/fr/`, installé avec le paquet Laravel-Lang (kata 17.3) |
 
-Le modèle des traits de caractère s'appelle `Tag`, pas `Trait` : `trait` est un
-mot réservé de PHP (vous l'avez utilisé au bloc POO), `class Trait` ne compile
-pas. Dans les textes affichés, on écrit « trait de caractère ».
+Le modèle des traits de caractère s'appelle `Tag`, pas `Trait` : `trait` est le
+mot-clé des traits du bloc POO, et `class Trait {}` s'arrête sur
+`Parse error: syntax error, unexpected token "trait", expecting identifier`.
+Dans les textes affichés, on écrit « trait de caractère ».
 
 Le menu du layout pointe vers `/animaux` et `/animaux/nouveau` en adresses
 écrites en dur, pas avec `route('animals.index')` : tant que vous n'avez pas
@@ -48,7 +49,7 @@ Le menu du layout pointe vers `/animaux` et `/animaux/nouveau` en adresses
    npm install
    ```
    `php artisan migrate --seed` vous propose de créer `database/database.sqlite` :
-   répondez `yes`. Il y met les trois refuges, les huit traits et les douze
+   appuyez sur Entrée pour répondre `yes`. Il y met les trois refuges, les huit traits et les douze
    animaux.
 4. **Lancez le site** :
    ```bash
@@ -64,14 +65,16 @@ Le menu du layout pointe vers `/animaux` et `/animaux/nouveau` en adresses
    ```
    Presque tout est rouge. C'est le point de départ.
 6. **Travaillez un kata à la fois**, dans l'ordre du tableau ci-dessous.
-7. **Committez et poussez** dès qu'un groupe est vert :
+7. **Faites un commit et poussez** dès qu'un groupe est vert :
    ```bash
    git add .
    git commit -m "kata 17.1 vert"
    git push
    ```
-8. **Regardez l'onglet Actions** de votre fork sur GitHub : huit jobs, une coche
-   verte ou une croix rouge pour chacun.
+8. **Regardez l'onglet Actions** de votre fork sur GitHub. La première fois,
+   GitHub demande d'activer les workflows du fork (bouton *I understand my
+   workflows, go ahead and enable them*). Ensuite : huit jobs, une coche verte ou
+   une croix rouge pour chacun.
 
 Les tests tournent sur une base en mémoire : votre `database.sqlite` n'est pas
 touchée. Ils n'ont pas besoin de `npm` : ils ne regardent pas le CSS
@@ -118,7 +121,7 @@ Quelques raisons que vous rencontrerez :
   Comparez-les champ par champ.
 - `Failed asserting that table [animal_tag] matches expected entries count of 2. Entries found: 0.` :
   les traits cochés ne sont pas enregistrés (`sync()` manque).
-- `Lancez composer require laravel-lang/common --dev, puis php artisan lang:add fr, et committez lang/fr/.` :
+- `Lancez composer require laravel-lang/common --dev, puis php artisan lang:add fr, et faites un commit de lang/.` :
   les traductions françaises ne sont pas installées.
 
 Six tests sur 41 sont verts dès le départ : les cinq « … répond 404 » (une
@@ -158,28 +161,31 @@ Les champs du formulaire, avec les mêmes noms à l'ajout et à la modification 
 |---|---|---|
 | `name` | `<input type="text">` | `required`, `string`, `max:50` |
 | `species` | `<select>` sur `Species::cases()`, `value="{{ $species->value }}"` | `required`, `Rule::enum(Species::class)` |
-| `shelter_id` | `<select>` sur les refuges | `required`, `exists:shelters,id` |
+| `shelter_id` | `<select>` sur les refuges | `required`, `integer`, `exists:shelters,id` |
 | `birth_date` | `<input type="date">` | `nullable`, `date`, `before_or_equal:today` |
 | `description` | `<textarea>` | `nullable`, `string`, `max:1000` |
 | `tags` | cases `name="tags[]"` `value="{{ $tag->id }}"` | `nullable`, `array` ; `tags.*` : `integer`, `exists:tags,id` |
 
 Les noms des champs dans les messages : `name` → nom, `species` → espèce,
 `shelter_id` → refuge, `birth_date` → date de naissance, `description` →
-description, `tags` → traits de caractère.
+description, `tags` → traits de caractère, `tags.*` → trait de caractère.
 
 Les textes que les tests cherchent dans les pages : les trois messages flash
 ci-dessus et « {nom} a trouvé une famille. », « Adopté », « Aucun animal » (liste
 vide), les libellés « Chien », « Chat », « Lapin ».
 
-Le reste (le HTML de vos vues, les classes Tailwind, l'ordre des champs) est
-libre : les critères de mise en forme sont dans le chapitre 17.
+Les tests cherchent aussi dans le HTML `method="POST"` et
+`action="{{ route('…') }}"` : écrivez l'attribut `action` avec `route()`, entre
+guillemets doubles. Le reste (les autres balises, les classes Tailwind, l'ordre
+des champs et des attributs) est libre : les critères de mise en forme sont dans
+le chapitre 17.
 
 ## Ce qui est dans le dossier
 
 | Fichier | Rôle |
 |---|---|
 | `tests/Feature/ListeTest.php` … `BonusTest.php` | Les énoncés, un fichier par kata, chaque test marqué `->group('liste')` (etc.). **Ne les modifiez pas.** |
-| `tests/Pest.php` | Configuration de Pest : la base en mémoire remise à neuf avant chaque test, `withoutVite()`, et la fonction `validAnimal()` qui fabrique un formulaire valide. |
+| `tests/Pest.php` | Configuration de Pest : la base en mémoire remise à neuf avant chaque test, `withoutVite()`, la fonction `validAnimal()` qui fabrique un formulaire valide, et `tagCheckboxes()` qui lit les cases des traits d'une page. |
 | `.github/workflows/tests.yml` | La CI : un job par kata, huit résultats visibles dans l'onglet Actions. |
 | `resources/views/components/` | Le layout et les quatre composants, documentés sur `/composants`. |
 | `database/` | Les migrations, les fabriques et les seeders du refuge. |

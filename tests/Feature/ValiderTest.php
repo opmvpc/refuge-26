@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\File;
 
 test('les traductions françaises sont installées', function (): void {
     expect(File::exists(lang_path('fr/validation.php')))
-        ->toBeTrue('Lancez composer require laravel-lang/common --dev, puis php artisan lang:add fr, et committez lang/fr/.');
+        ->toBeTrue('Lancez composer require laravel-lang/common --dev, puis php artisan lang:add fr, et faites un commit de lang/.');
     expect(config('app.locale'))->toBe('fr');
 })->group('valider');
 

@@ -6,19 +6,28 @@ use App\Models\Tag;
 
 test('le formulaire d\'ajout propose une case par trait de caractère', function (): void {
     Shelter::factory()->create();
-    Tag::factory()->create(['name' => 'Joueur']);
+    $joueur = Tag::factory()->create(['name' => 'Joueur']);
+    $calme = Tag::factory()->create(['name' => 'Calme']);
 
-    $this->get('/animaux/nouveau')
+    $html = $this->get('/animaux/nouveau')
         ->assertOk()
-        ->assertSee('name="tags[]"', false)
-        ->assertSee('Joueur');
+        ->assertSee('Joueur')
+        ->assertSee('Calme')
+        ->getContent();
+
+    expect(array_keys(tagCheckboxes($html)))->toEqualCanonicalizing(
+        [$joueur->id, $calme->id],
+        'Il faut une case <input type="checkbox" name="tags[]" value="{{ $tag->id }}"> par trait de caractère.',
+    );
 })->group('caracteres');
 
 test('à l\'ajout, les traits cochés sont enregistrés dans animal_tag', function (): void {
     $shelter = Shelter::factory()->create();
     [$joueur, $calme, $craintif] = Tag::factory()->count(3)->create();
 
-    $this->post('/animaux', validAnimal($shelter, ['tags' => [$joueur->id, $calme->id]]));
+    $this->post('/animaux', validAnimal($shelter, ['tags' => [$joueur->id, $calme->id]]))
+        ->assertSessionHasNoErrors()
+        ->assertRedirect();
 
     $animal = Animal::first();
     $this->assertDatabaseCount('animal_tag', 2);
@@ -33,10 +42,11 @@ test('le formulaire de modification pré-coche les traits de l\'animal', functio
     [$joueur, $calme] = Tag::factory()->count(2)->create();
     $animal->tags()->attach($joueur);
 
-    $html = $this->get("/animaux/{$animal->id}/modifier")->assertOk()->getContent();
+    $checkboxes = tagCheckboxes($this->get("/animaux/{$animal->id}/modifier")->assertOk()->getContent());
 
-    expect($html)->toMatch('/value="'.$joueur->id.'"[^>]*checked/');
-    expect($html)->not->toMatch('/value="'.$calme->id.'"[^>]*checked/');
+    expect($checkboxes)->toHaveKeys([$joueur->id, $calme->id], 'Il faut une case name="tags[]" par trait de caractère.');
+    expect($checkboxes[$joueur->id])->toBeTrue('La case d\'un trait de l\'animal doit porter l\'attribut checked.');
+    expect($checkboxes[$calme->id])->toBeFalse('La case d\'un trait que l\'animal n\'a pas ne doit pas porter l\'attribut checked.');
 })->group('caracteres');
 
 test('à la modification, la liste des traits est remplacée', function (): void {
