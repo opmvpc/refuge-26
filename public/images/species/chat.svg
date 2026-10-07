@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Chat">
+  <g fill="none" stroke="#2f6b45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <!-- tête et oreilles pointues -->
+    <path d="M56 88 L58 42 L88 66 C96 64 104 64 112 66 L142 42 L144 88 C152 124 134 154 100 154 C66 154 48 124 56 88 Z"/>
+    <!-- moustaches -->
+    <path d="M30 112 L74 118"/>
+    <path d="M32 132 L74 126"/>
+    <path d="M170 112 L126 118"/>
+    <path d="M168 132 L126 126"/>
+    <!-- bouche -->
+    <path d="M100 124 C96 132 88 134 84 130"/>
+    <path d="M100 124 C104 132 112 134 116 130"/>
+  </g>
+  <g fill="#2f6b45">
+    <ellipse cx="80" cy="100" rx="6" ry="8"/>
+    <ellipse cx="120" cy="100" rx="6" ry="8"/>
+    <path d="M92 114 L108 114 L100 124 Z"/>
+  </g>
+</svg>

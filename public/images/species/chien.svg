@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Chien">
+  <g fill="none" stroke="#2f6b45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <!-- oreilles tombantes -->
+    <path d="M62 62 C40 66 34 104 46 124 C54 118 60 104 64 90"/>
+    <path d="M138 62 C160 66 166 104 154 124 C146 118 140 104 136 90"/>
+    <!-- tête -->
+    <path d="M64 70 C70 50 130 50 136 70 C144 96 142 130 126 146 C114 158 86 158 74 146 C58 130 56 96 64 70 Z"/>
+    <!-- museau -->
+    <path d="M84 132 C90 142 110 142 116 132"/>
+    <path d="M100 124 L100 134"/>
+  </g>
+  <g fill="#2f6b45">
+    <circle cx="84" cy="98" r="6"/>
+    <circle cx="116" cy="98" r="6"/>
+    <path d="M90 116 C90 110 110 110 110 116 C110 122 104 126 100 126 C96 126 90 122 90 116 Z"/>
+  </g>
+</svg>

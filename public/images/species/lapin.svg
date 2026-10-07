@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Lapin">
+  <g fill="none" stroke="#2f6b45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <!-- longues oreilles -->
+    <path d="M78 92 C66 70 62 30 74 22 C86 16 94 52 92 86"/>
+    <path d="M122 92 C134 70 138 30 126 22 C114 16 106 52 108 86"/>
+    <!-- tête ronde -->
+    <circle cx="100" cy="124" r="44"/>
+    <!-- bouche et dents -->
+    <path d="M100 134 C96 142 88 142 86 138"/>
+    <path d="M100 134 C104 142 112 142 114 138"/>
+    <path d="M95 142 L95 152 L105 152 L105 142"/>
+  </g>
+  <g fill="#2f6b45">
+    <circle cx="84" cy="116" r="6"/>
+    <circle cx="116" cy="116" r="6"/>
+    <path d="M93 126 L107 126 L100 134 Z"/>
+  </g>
+</svg>
